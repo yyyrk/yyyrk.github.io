@@ -1,0 +1,7 @@
+baseURL: https://yyyrk.github.io
+languageCode: ru-ru
+title: Мой новый сайт
+
+module:
+  imports:
+    - path: github.com/imfing/hextra
