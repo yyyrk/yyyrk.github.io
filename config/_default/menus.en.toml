@@ -1,0 +1,50 @@
+[[main]]
+name = "Posts"
+pageRef = "posts"
+weight = 10
+
+[[main]]
+name = "Tags"
+pageRef = "tags"
+weight = 20
+
+[[main]]
+identifier = "web"
+pre = "link"
+url = "https://nunocoracao.github.io/blowfish/"
+weight = 40
+
+[[main]]
+identifier = "github"
+pre = "github"
+url = "https://github.com/nunocoracao/blowfish"
+weight = 50
+
+[[main]]
+identifier = "twitter"
+pre = "twitter"
+url = "https://twitter.com/burufugu"
+weight = 60
+
+[[main]]
+name = "💎 Treasury"
+pageRef = "pages/treasury"
+identifier = "tLTVWsEWJL"
+weight = 9999
+
+[[main]]
+name = "🤵🏻О блоге"
+pageRef = "pages/about/"
+identifier = "12XUdAU36M"
+weight = 9999
+
+[[footer]]
+name = "Tags"
+pageRef = "tags"
+weight = 10
+
+[[footer]]
+name = "Поддержка проекта"
+pageRef = "posts"
+identifier = "brRdUy2HvW"
+weight = 9999
