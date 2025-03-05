@@ -1,0 +1,76 @@
+# Пример workflow для сборки и деплоя сайта Hugo на GitHub Pages
+name: Deploy Hugo to GitHub Pages
+
+on:
+  # Запуск при пушах в основную ветку
+  push:
+    branches: ["main"]
+
+  # Позволяет запускать workflow вручную из вкладки Actions
+  workflow_dispatch:
+
+# Устанавливает разрешения для GITHUB_TOKEN для деплоя на GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Разрешаем только один одновременный деплой
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# По умолчанию используем bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Задача по сборке
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Установка Hugo
+      - name: Установка Hugo
+        uses: peaceiris/actions-hugo@v2.6.0
+        with:
+          hugo-version: 0.140.2
+          extended: true
+
+      # Клонирование репозитория
+      - name: Клонирование кода
+        uses: actions/checkout@v4
+        with:
+          submodules: true  # Загружать подмодули (темы Hugo)
+          fetch-depth: 0    # Загружать всю историю для .GitInfo и .Lastmod
+
+      # Настройка GitHub Pages
+      - name: Настройка GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v2
+
+      # Сборка Hugo
+      - name: Сборка сайта Hugo
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo --minify -d ./public --baseURL https://yurik.org/
+
+      # Загрузка артефактов для деплоя
+      - name: Загрузка файлов для деплоя
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./public
+
+  # Задача по деплою
+  deploy:
+    environment:
+      name: github-pages
+      url: https://yurik.org/
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Деплой на GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
